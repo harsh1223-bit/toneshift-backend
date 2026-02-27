@@ -21,44 +21,48 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
 
-    @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain
-    ) throws ServletException, IOException {
-if (request.getMethod().equalsIgnoreCase("OPTIONS")) {
+   @Override
+protected void doFilterInternal(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        FilterChain filterChain
+) throws ServletException, IOException {
+
+    // 🔥 Handle preflight FIRST and stop here
+    if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+        response.setStatus(HttpServletResponse.SC_OK);
+        return;
+    }
+
+    String authHeader = request.getHeader("Authorization");
+
+    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
         filterChain.doFilter(request, response);
         return;
     }
-        String authHeader = request.getHeader("Authorization");
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+    String token = authHeader.substring(7);
 
-        String token = authHeader.substring(7);
+    if (jwtService.validateToken(token)) {
 
-        if (jwtService.validateToken(token)) {
+        String username = jwtService.extractUsername(token);
 
-            String username = jwtService.extractUsername(token);
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(
+                        username,
+                        null,
+                        List.of()
+                );
 
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(
-                            username,
-                            null,
-                            List.of()
-                    );
+        authentication.setDetails(
+                new WebAuthenticationDetailsSource().buildDetails(request)
+        );
 
-            authentication.setDetails(
-                    new WebAuthenticationDetailsSource().buildDetails(request)
-            );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
+    filterChain.doFilter(request, response);
 
-        filterChain.doFilter(request, response);
         System.out.println("TOKEN RECEIVED: " + token);
     System.out.println("IS VALID: " + jwtService.validateToken(token));
 
