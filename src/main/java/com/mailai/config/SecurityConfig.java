@@ -59,29 +59,23 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+@Bean
+public CorsConfigurationSource corsConfigurationSource() {
 
-        CorsConfiguration configuration = new CorsConfiguration();
+    CorsConfiguration config = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of(
-                "https://toneshift-web.vercel.app"
-        ));
+    config.setAllowedOriginPatterns(List.of("*")); // allow all temporarily
+    config.setAllowedMethods(List.of("*"));
+    config.setAllowedHeaders(List.of("*"));
+    config.setAllowCredentials(false); // IMPORTANT: must be false with "*"
 
-        configuration.setAllowedMethods(List.of(
-                "GET", "POST", "PUT", "DELETE", "OPTIONS"
-        ));
+    UrlBasedCorsConfigurationSource source =
+            new UrlBasedCorsConfigurationSource();
 
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true);
+    source.registerCorsConfiguration("/**", config);
 
-        UrlBasedCorsConfigurationSource source =
-                new UrlBasedCorsConfigurationSource();
-
-        source.registerCorsConfiguration("/**", configuration);
-
-        return source;
-    }
+    return source;
+}
 
     @Bean
     public AuthenticationManager authenticationManager(
