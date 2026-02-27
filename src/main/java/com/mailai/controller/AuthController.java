@@ -1,5 +1,5 @@
 package com.mailai.controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
+
 import com.mailai.dto.RegisterRequest;
 import com.mailai.dto.LoginRequest;
 import com.mailai.model.User;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "https://toneshift-web.vercel.app")
+
 @RequiredArgsConstructor
 public class AuthController {
 
