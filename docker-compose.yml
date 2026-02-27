@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: mail-ai-mysql
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mail_ai
+      MYSQL_USER: mailuser
+      MYSQL_PASSWORD: harsh@123
+    ports:
+      - "3308:3306"
+    networks:
+      - mail-ai-network
+
+  app:
+    build: .
+    container_name: mail-ai-app
+    restart: always
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/mail_ai?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USER: mailuser
+      DB_PASSWORD: harsh@123
+      JWT_SECRET: ${JWT_SECRET}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+    ports:
+      - "8082:8080"
+    depends_on:
+      - mysql
+    networks:
+      - mail-ai-network
+
+networks:
+  mail-ai-network:
+    driver: bridge
