@@ -13,11 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.cors.CorsConfigurationSource;
 
-import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
@@ -59,23 +55,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-@Bean
-public CorsConfigurationSource corsConfigurationSource() {
 
-    CorsConfiguration config = new CorsConfiguration();
-
-    config.setAllowedOriginPatterns(List.of("*")); // allow all temporarily
-    config.setAllowedMethods(List.of("*"));
-    config.setAllowedHeaders(List.of("*"));
-    config.setAllowCredentials(false); // IMPORTANT: must be false with "*"
-
-    UrlBasedCorsConfigurationSource source =
-            new UrlBasedCorsConfigurationSource();
-
-    source.registerCorsConfiguration("/**", config);
-
-    return source;
-}
 
     @Bean
     public AuthenticationManager authenticationManager(
