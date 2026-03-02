@@ -1,6 +1,7 @@
 com/mailai/dto/AiResult.class
 com/mailai/controller/EmailController.class
 com/mailai/exception/UserNotFoundException.class
+com/mailai/controller/HealthController.class
 com/mailai/controller/AuthController.class
 com/mailai/model/AiAnalysis.class
 com/mailai/model/User.class

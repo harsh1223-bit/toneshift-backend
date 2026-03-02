@@ -40,14 +40,26 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .authorizeHttpRequests(auth -> auth
-    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-    .requestMatchers(
-        "/auth/**",
-        "/swagger-ui/**",
-        "/v3/api-docs/**"
-    ).permitAll()
-    .anyRequest().authenticated()
+    .authorizeHttpRequests(auth -> auth
+
+        // Allow root (Render + browser access)
+        .requestMatchers("/").permitAll()
+
+        // Swagger
+        .requestMatchers(
+                "/swagger-ui/**",
+                "/v3/api-docs/**",
+                "/swagger-ui.html"
+        ).permitAll()
+
+        // Auth endpoints
+        .requestMatchers("/auth/**").permitAll()
+
+        // Preflight
+        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+        // Everything else secured
+        .anyRequest().authenticated()
 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -78,3 +90,4 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 }
+

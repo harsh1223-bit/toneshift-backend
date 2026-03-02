@@ -1,5 +1,6 @@
 /Users/harshsharma/Downloads/mail_ai_springboot/src/main/java/com/mailai/model/User.java
 /Users/harshsharma/Downloads/mail_ai_springboot/src/main/java/com/mailai/exception/ErrorResponse.java
+/Users/harshsharma/Downloads/mail_ai_springboot/src/main/java/com/mailai/controller/HealthController.java
 /Users/harshsharma/Downloads/mail_ai_springboot/src/main/java/com/mailai/exception/UserNotFoundException.java
 /Users/harshsharma/Downloads/mail_ai_springboot/src/main/java/com/mailai/repository/AiAnalysisRepository.java
 /Users/harshsharma/Downloads/mail_ai_springboot/src/main/java/com/mailai/service/UserService.java
