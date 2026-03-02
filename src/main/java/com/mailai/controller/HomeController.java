@@ -8,6 +8,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "Mail AI Backend is Running 🚀";
+        return "ToneShift Backend Running 🚀";
     }
 }
