@@ -41,16 +41,14 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/auth/**" ).permitAll()
-                         .requestMatchers(
-            "/auth/**",
-            "/swagger-ui/**",
-            "/v3/api-docs/**",
-            "/swagger-ui.html"
-        ).permitAll()
-                        .anyRequest().authenticated()
-                )
+    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+    .requestMatchers(
+        "/auth/**",
+        "/swagger-ui/**",
+        "/v3/api-docs/**"
+    ).permitAll()
+    .anyRequest().authenticated()
+)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
