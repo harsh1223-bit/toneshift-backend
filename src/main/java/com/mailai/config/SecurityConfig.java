@@ -57,7 +57,7 @@ public class SecurityConfig {
 
         // Preflight
         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-
+        .requestMatchers("/", "/health", "/auth/**").permitAll()
         // Everything else secured
         .anyRequest().authenticated()
 )
