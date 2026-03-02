@@ -1,13 +1,15 @@
 package com.mailai.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/health")
 public class HealthController {
 
-    @GetMapping("/")
+    @GetMapping
     public String health() {
-        return "ToneShift Backend Running 🚀";
+        return "OK";
     }
 }
